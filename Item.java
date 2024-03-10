@@ -15,8 +15,10 @@ public class Item
 {
     // instance variables - replace the example below with your own
     private double weight; //weight in kg
-    private String name;
-    private String description;
+    private String name; //name of the item
+    private Room location; //the room the item is in, null value means the player's inventory
+    private String locationText; //where in the room the item is blank means the player's inventory
+    private String description; //the item's description
     
     /**
      * Constructor for objects of class Item
@@ -27,6 +29,42 @@ public class Item
         name = "";
         weight = 0.0;
         description = "";
+        location = null;
+        locationText = "";
+    }
+    
+    /**
+     * Constructor for objects of class Item from Inventory
+     * @param   n - the name of the item
+     * @param   x - the weight of the item in kg
+     * @param   d - the description of the item
+     */
+    public Item(String n, double x, String d)
+    {
+        // initialise instance variables
+        name = n;
+        weight = x;
+        description = d;
+        location = null;
+        locationText = "";
+    }
+    
+    /**
+     * Constructor for objects of class Item in a room
+     * @param   n - the name of the item
+     * @param   x - the weight of the item in kg
+     * @param   d - the description of the item
+     * @param   r - the room the item is in
+     * @param   l - the description of the item's location within the room
+     */
+    public Item(String n, double x, String d, Room r, String l)
+    {
+        // initialise instance variables
+        name = n;
+        weight = x;
+        description = d;
+        location = r;
+        locationText = l;
     }
 
     /**
@@ -34,7 +72,6 @@ public class Item
      */
     public double getWeight()
     {
-        // put your code here
         return weight;
     }
     
@@ -43,8 +80,28 @@ public class Item
      */
     public String getName()
     {
-        // put your code here
         return name;
+    }
+    
+    /**
+     * @return    the location of the item
+     */
+    public Room getLocation()
+    {
+        return location;
+    }
+    
+    /**
+     * @param     full - whether or not to include the room the item is in
+     * @return    the description of the item's location
+     */
+    public String getLocationText(boolean full)
+    {
+        if(full)
+        {
+            return locationText + " of " + location.getLocationString();
+        }
+        return locationText;
     }
     
     /**
@@ -52,34 +109,40 @@ public class Item
      */
     public String getDescription()
     {
-        // put your code here
         return description;
     }
     
     /**
-     * @return    the weight of the item
+     * @param    x - the weight of the item in kg
      */
     public void setWeight(double x)
     {
-        // put your code here
         weight = x;
     }
     
     /**
-     * @return    the name of the item
+     * @param    str - the name of the item
      */
     public void setName(String str)
     {
-        // put your code here
         name = str;
     }
     
     /**
-     * @return    the description of the item
+     * @param    str - the description of the item
      */
     public void setDescription(String str)
     {
-        // put your code here
         description = str;
+    }
+    
+    /**
+     * @param    r - the room the item is in
+     * @param    str - the description of the item's location
+     */
+    public void setLocation(Room r, String str)
+    {
+        location = r;
+        locationText = str;
     }
 }

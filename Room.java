@@ -22,6 +22,8 @@ import java.util.ArrayList;
 public class Room 
 {
     private String description;
+    private String name;
+    private String locationString;
     private HashMap<String, Room> exits;        // stores exits of this room.
     private ArrayList<Item> items;
     
@@ -34,6 +36,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        items = new ArrayList<Item>();
         exits = new HashMap<>();
     }
 
@@ -45,6 +48,23 @@ public class Room
     public void setExit(String direction, Room neighbor) 
     {
         exits.put(direction, neighbor);
+    }
+    
+    /**
+     * Define an name for this room.
+     * @param name The name of the room.
+     * @param locationDescription the way the room is described as a location.
+     * Same set method since a change to one necessitates a change to the other
+     */
+    public void setName(String str, String locationStr) 
+    {
+        name = str;
+        locationString = locationStr;
+    }
+    
+    public void addItem(Item i)
+    {
+        items.add(i);
     }
 
     /**
@@ -64,7 +84,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" + getExitString() + ". " + getItemString();
     }
 
     /**
@@ -81,6 +101,27 @@ public class Room
         }
         return returnString;
     }
+    
+    /**
+     * Return a string describing the room's exits, for example
+     * "Exits: north west".
+     * @return Details of the room's exits.
+     */
+    private String getItemString()
+    {
+        String returnString = "There is ";
+        for(Item a : items) {
+            char b = a.getLocationText(false).charAt(0); //the first letter of the item's name
+            if(b == 'a' || b == 'e' || b == 'i'  || b == 'o'|| b == 'u') //choose a or an
+            {
+                returnString += "an " + a.getLocationText(false) + ", ";
+            } else
+            {
+                returnString += "a " + a.getLocationText(false) + ", ";
+            }
+        }
+        return returnString.substring(0,returnString.length() - 2) + ".";
+    }
 
     /**
      * Return the room that is reached if we go from this room in direction
@@ -91,6 +132,15 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Return the string to append a sentence with the room as a location
+     * Ex: The broom is located on the right side * of the kitchen *
+     */
+    public String getLocationString()
+    {
+        return locationString;
     }
 }
 

@@ -47,6 +47,12 @@ public class Game
         outside.setExit("east", theater);
         outside.setExit("south", lab);
         outside.setExit("west", pub);
+        outside.addItem(new Item("Shovel",10.0,
+        "An iron shovel with a wooden handle, covered in rust",
+        outside,"shovel laying on the shed"));
+        outside.addItem(new Item("Apple",1.0,
+        "It's a fuji apple, it has rotted, inedible.",
+        outside,"apple that fell from a nearby tree"));
 
         theater.setExit("west", outside);
 
