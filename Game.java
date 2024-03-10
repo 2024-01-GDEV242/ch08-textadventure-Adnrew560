@@ -20,7 +20,6 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private Room lastRoom;
     private ArrayList<Room> path; //the path the player took to get to the room
     public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
         
