@@ -1,8 +1,10 @@
 import java.util.HashMap;
 
 /**
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.
+ * This class is part of the "Very Original Murder Mystery" application.
+ * "Very Original Murder Mystery" is a simple, and very definitely original game
+ * not at all derivative of Capcom's "Ace Attorney" series, which is completely
+ * coincedentially the closest thing to a text adventure game I've ever played.
  * 
  * This class holds an enumeration of all command words known to the game.
  * It is used to recognise commands as they are typed in.

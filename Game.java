@@ -1,8 +1,8 @@
-/**
- *  This class is the main class of the "World of Zuul" application. 
- *  "World of Zuul" is a very simple, text based adventure game.  Users 
- *  can walk around some scenery. That's all. It should really be extended 
- *  to make it more interesting!
+/** 
+ * This class is the main class of the "Very Original Murder Mystery" application.
+ * "Very Original Murder Mystery" is a simple, and very definitely original game
+ * not at all derivative of Capcom's "Ace Attorney" series, which is completely
+ * coincedentially the closest thing to a text adventure game I've ever played.
  * 
  *  To play this game, create an instance of this class and call the "play"
  *  method.
