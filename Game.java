@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /** 
  * This class is the main class of the "Very Original Murder Mystery" application.
  * "Very Original Murder Mystery" is a simple, and very definitely original game
@@ -20,6 +21,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Room lastRoom;
+    private ArrayList<Room> path; //the path the player took to get to the room
     public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
         
     /**
@@ -29,6 +31,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        path = new ArrayList<Room>();
     }
 
     /**
@@ -66,7 +69,6 @@ public class Game
         office.setExit("west", lab);
 
         currentRoom = outside;  // start game outside
-        lastRoom = outside;  // start game outside
     }
 
     /**
@@ -133,9 +135,15 @@ public class Game
                 break;
                 
             case BACK:
-                goRoom(lastRoom);
-                //teleport method does not print for the sake of other use cases
-                System.out.println(currentRoom.getLongDescription()); 
+                if(path.size() == 0)
+                {
+                    System.out.println("You cannot go back.");
+                } else 
+                {
+                    goRoom(path.get(path.size() -1));
+                    //teleport method does not print for the sake of other use cases
+                    System.out.println(currentRoom.getLongDescription());
+                } 
                 break;
                 
             case QUIT:
@@ -182,7 +190,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            lastRoom = currentRoom;
+            path.add(currentRoom);
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }
@@ -195,7 +203,7 @@ public class Game
      */
     private void goRoom(Room r)
     {
-        lastRoom = currentRoom;
+        path.remove(path.size() - 1);
         currentRoom = r;
     }
 
