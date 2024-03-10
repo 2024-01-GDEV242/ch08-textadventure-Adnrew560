@@ -33,7 +33,7 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String name, String description) 
     {
         this.description = description;
         items = new ArrayList<Item>();
@@ -84,7 +84,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + ". " + getItemString();
+        return "You are " + description + ".\n" + getExitString() + ".\n" + getItemString();
     }
 
     /**
@@ -132,6 +132,14 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Return the name of the room
+     */
+    public String getName()
+    {
+        return name;
     }
     
     /**

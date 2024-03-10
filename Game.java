@@ -19,6 +19,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room lastRoom;
+    public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
         
     /**
      * Create the game and initialise its internal map.
@@ -37,11 +39,11 @@ public class Game
         Room outside, theater, pub, lab, office;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        outside = new Room("outside","outside the main entrance of the university");
+        theater = new Room("theater","in a lecture theater");
+        pub = new Room("pub","in the campus pub");
+        lab = new Room("lab","in a computing lab");
+        office = new Room("office","in the computing admin office");
         
         // initialise room exits
         outside.setExit("east", theater);
@@ -64,6 +66,7 @@ public class Game
         office.setExit("west", lab);
 
         currentRoom = outside;  // start game outside
+        lastRoom = outside;  // start game outside
     }
 
     /**
@@ -90,8 +93,8 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to Very Original Murder Mystery!");
+        System.out.println("Very Original Murder Mystery is a new, incredibly original adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -127,6 +130,12 @@ public class Game
 
             case EAT:
                 System.out.println("I do indeed like food, you eat a bowl of noodles");
+                break;
+                
+            case BACK:
+                goRoom(lastRoom);
+                //teleport method does not print for the sake of other use cases
+                System.out.println(currentRoom.getLongDescription()); 
                 break;
                 
             case QUIT:
@@ -173,9 +182,21 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            lastRoom = currentRoom;
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }
+    }
+    
+    /**
+     * Teleports the player to a room, instead of using a direction, does not print anything
+     * so it can be used in scripted events
+     * @param r - the room to go to
+     */
+    private void goRoom(Room r)
+    {
+        lastRoom = currentRoom;
+        currentRoom = r;
     }
 
     private void look()
