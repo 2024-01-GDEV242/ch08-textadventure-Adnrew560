@@ -24,6 +24,7 @@ public class Game
     private Player p1; //the player
     private boolean talking;
     public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
+    private ArrayList<Option> choices = new ArrayList<Option>();
         
     /**
      * Create the game and initialise its internal map.
@@ -48,7 +49,8 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room outside, theater, pub, lab, office, cafeteria, pool, kitchen, garage, bedroom, park;
+        Room store, beach, tower, mine, home;
       
         // create the rooms
         outside = new Room("outside","outside the main entrance of the university");
@@ -56,28 +58,83 @@ public class Game
         pub = new Room("pub","in the campus pub");
         lab = new Room("lab","in a computing lab");
         office = new Room("office","in the computing admin office");
+        cafeteria = new Room("cafeteria","in the office cafeteria");
+        home = new Room("home", "right outside your home");
+        garage = new Room("garage", "your garage");
+        kitchen = new Room("kitchen", "your kitchen");
+        bedroom = new Room("bedroom", "your bedroom");
+        park = new Room("park","the park near your house");
+        store = new Room("store", "the store on main stret");
+        beach = new Room("beach", "the beach");
+        tower = new Room("tower", "the tower towering over main street");
+        pool = new Room("pool", "welcome to the evil pool that has no exit, you are trapped here forever");
         
-        
+        choices.add(new Option("colors","My favorite color is blue!"));
+        choices.add(new Option("math","I like math, except statistics"));
+        outside.setActiveNPC(new NPC("Timothy"));
+        outside.getActiveNPC().setOptions(choices);
         
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
         outside.setExit("west", pub);
+        outside.setExit("north", home);
         outside.addItem(new Item("Shovel",10.0,
         "An iron shovel with a wooden handle, covered in rust",
         outside,"shovel laying on the shed", true));
         outside.addItem(new Item("Apple",1.0,
         "It's a fuji apple, it has rotted, inedible.",
         outside,"apple that fell from a nearby tree", false));
+        
+        home.setExit("inside", garage);
+        home.setExit("north", park);
+        home.setExit("south", outside);
+        
+        park.setExit("south", home);
+        
+        garage.setExit("north", kitchen);
+        garage.setExit("out", home);
+        
+        garage.addItem(new Item("Car",4000.0,"Your car you use to drive to school and work", garage,"car, parked cleanly, belongs to you", false));
+        
+        kitchen.setExit("up", bedroom);
+        kitchen.setExit("south", garage);
+        
+        kitchen.addItem(new Item("Knives",10.0,"A set of knives, better not touch them.", kitchen, "set of knives on the counter", false));
+        
+        bedroom.setExit("down", kitchen);
 
         theater.setExit("west", outside);
+        theater.setExit("east", beach);
+        
+        beach.setExit("west", theater);
 
         pub.setExit("east", outside);
+        pub.setExit("west", store);
+        
+        store.addItem(new Item("Apples",12.0,"A bundle of apples, yummy.", store, "a bundle of apples in the fruit section", true));
+        store.addItem(new Item("Bananas",5.0,"A buch of bananas, perfect for comedy.", store, "a bunch of bananas also in the fruit section", true));
+        store.addItem(new Item("Tea",1.5,"A box of green tea.", store, "tea in the drinks section", true));
+        store.addItem(new Item("Cash Register",200,"The cash register where you check out items", store, "cash register on the right", false));
+        ArrayList<Option> set2 = new ArrayList<Option>();
+        set2.add(new Option("apples","the apples are 99 cents each"));
+        set2.add(new Option("bananas","the bananas are 5 dollars a bunch"));
+        set2.add(new Option("tea","the tea is 2 dollars for a box"));
+        set2.add(new Option("register","no you can't buy the cash register"));
+        store.setActiveNPC(new NPC("Attendant"));
+        store.getActiveNPC().setOptions(set2);
+        store.setExit("east", pub);
+        store.setExit("north", pool);
+        store.setExit("south", tower);
+        
 
         lab.setExit("north", outside);
         lab.setExit("east", office);
+        lab.setExit("west",cafeteria);
 
         office.setExit("west", lab);
+        
+        cafeteria.setExit("east", cafeteria);
 
         currentRoom = outside;  // start game outside
     }
@@ -190,6 +247,11 @@ public class Game
             //Misc.
             case EAT:
                 System.out.println("I do indeed like food, you eat a bowl of noodles");
+                p1.setHealth(p1.getHealth() + 2);
+                break;
+                
+            case STATS:
+                System.out.println("Health: " + p1.getHealth());
                 break;
                 
             case QUIT:
@@ -286,30 +348,30 @@ public class Game
     
     
     /** 
-     * Try to go in one direction. If there is an exit, enter the new
-     * room, otherwise print an error message.
+     * Get response from a dialogue option, or list them
+     * 
      */
     private void talk(Command command) 
     {
         
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            System.out.println("Talk about what?");
+            currentRoom.getActiveNPC().printOptions();
             return;
         }
 
-        String direction = command.getSecondWord();
+        String selection = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        Option a = currentRoom.getActiveNPC().findOption(selection);
 
-        if (nextRoom == null) {
+        if (a == null) {
             System.out.println("There is no door!");
         }
-        else {
-            path.add(currentRoom);
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+        else 
+        {
+            a.printDialogue();
         }
     }
     

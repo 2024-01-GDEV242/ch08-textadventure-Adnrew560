@@ -10,16 +10,17 @@ import java.util.ArrayList;
  */
 public class NPC
 {
-    // instance variables - replace the example below with your own
-    private ArrayList<String> options;  //Dialogue options
-
+    private String name;    //The NPC's name
+    private ArrayList<Option> options;  //Dialogue options
+    
     /**
      * Constructor for objects of class NPC
      */
-    public NPC()
+    public NPC(String n)
     {
         // initialise instance variables
-        options = new ArrayList<String>();
+        name = n;
+        options = new ArrayList<Option>();
     }
 
     /**
@@ -28,7 +29,7 @@ public class NPC
      * @param  list  The list of options
      * 
      */
-    public void setOptions(ArrayList<String> list)
+    public void setOptions(ArrayList<Option> list)
     {
         // put your code here
         options = list;
@@ -40,9 +41,38 @@ public class NPC
      * @return  The list of options
      * 
      */
-    public ArrayList<String> getOptions()
+    public ArrayList<Option> getOptions()
     {
         return options;
+    }
+    
+    /**
+     * Find a dialogue option from an NPC
+     *
+     * @return  The option, or null
+     * 
+     */
+    public Option findOption(String str)
+    {
+        for(Option a : options)
+        {
+            if(a.getName().toLowerCase().equals(str.toLowerCase()))
+            {
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Read the name of an NPC
+     *
+     * @return  The name of the NPC
+     * 
+     */
+    public String getName()
+    {
+        return name;
     }
     
     /**
@@ -51,9 +81,9 @@ public class NPC
     public void printOptions()
     {
         String returnString = ""; 
-        for(String a : options)
+        for(Option a : options)
         {
-            returnString += a + " ";
+            returnString += a.getName() + " ";
         }
         System.out.println(returnString + ".");
     }

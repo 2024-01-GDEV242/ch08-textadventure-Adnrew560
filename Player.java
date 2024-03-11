@@ -81,4 +81,14 @@ public class Player
         }
         return -1;
     }
+    
+    public double getWeight()
+    {
+        double result = 0;
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            result += inventory.get(i).getWeight();
+        }
+        return result;
+    }
 }

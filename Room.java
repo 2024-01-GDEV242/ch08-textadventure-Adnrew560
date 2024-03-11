@@ -90,7 +90,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + "." + getItemString();
+        return "You are " + description + ".\n" + getExitString() + "." + getItemString() + getNPCString();
     }
 
     /**
@@ -109,9 +109,9 @@ public class Room
     }
     
     /**
-     * Return a string describing the room's exits, for example
-     * "Exits: north west".
-     * @return Details of the room's exits.
+     * Return a string describing the room's items, for example
+     * "There is a shovel, an apple.".
+     * @return Details of the room's items.
      */
     private String getItemString()
     {
@@ -133,6 +133,20 @@ public class Room
             return returnString.substring(0,returnString.length() - 2) + ".";
         }
         return "";
+    }
+    
+    /**
+     * Return a string describing the room's NPC, for example
+     * "Timothy is here".
+     * @return Details of the room's NPC.
+     */
+    private String getNPCString()
+    {
+        if(activeNPC == null)
+        {
+            return "";
+        }
+        return "\n" + activeNPC.getName() + " is here";
     }
 
     /**
