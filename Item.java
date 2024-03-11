@@ -63,7 +63,7 @@ public class Item
      * @param   r - the room the item is in
      * @param   l - the description of the item's location within the room
      */
-    public Item(String n, double x, String d, Room r, String l)
+    public Item(String n, double x, String d, Room r, String l,boolean p)
     {
         // initialise instance variables
         name = n;
@@ -71,6 +71,8 @@ public class Item
         description = d;
         location = r;
         locationText = l;
+        pickup = p;
+        owned = false;
     }
 
     /**

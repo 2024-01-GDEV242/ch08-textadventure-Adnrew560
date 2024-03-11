@@ -25,6 +25,7 @@ public class Room
     private String name;
     private String locationString;
     private HashMap<String, Room> exits;        // stores exits of this room.
+    private NPC activeNPC;                      //the current NPC that is active in the room
     private ArrayList<Item> items;
     
     /**
@@ -60,6 +61,11 @@ public class Room
     {
         name = str;
         locationString = locationStr;
+    }
+    
+    public void setActiveNPC(NPC n)
+    {
+        activeNPC = n;
     }
     
     public void addItem(Item i)
@@ -173,6 +179,11 @@ public class Room
     public String getLocationString()
     {
         return locationString;
+    }
+    
+    public NPC getActiveNPC()
+    {
+        return activeNPC;
     }
 }
 

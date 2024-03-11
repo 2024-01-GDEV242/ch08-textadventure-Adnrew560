@@ -22,6 +22,7 @@ public class Game
     private Room currentRoom;
     private ArrayList<Room> path; //the path the player took to get to the room
     private Player p1; //the player
+    private boolean talking;
     public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
         
     /**
@@ -33,6 +34,7 @@ public class Game
         parser = new Parser();
         path = new ArrayList<Room>();
         p1 = new Player();
+        talking = false;
     }
     
     public static void main(String[] args)
@@ -63,10 +65,10 @@ public class Game
         outside.setExit("west", pub);
         outside.addItem(new Item("Shovel",10.0,
         "An iron shovel with a wooden handle, covered in rust",
-        outside,"shovel laying on the shed"));
+        outside,"shovel laying on the shed", true));
         outside.addItem(new Item("Apple",1.0,
         "It's a fuji apple, it has rotted, inedible.",
-        outside,"apple that fell from a nearby tree"));
+        outside,"apple that fell from a nearby tree", false));
 
         theater.setExit("west", outside);
 
@@ -80,6 +82,7 @@ public class Game
         currentRoom = outside;  // start game outside
     }
 
+    
     /**
      *  Main play routine.  Loops until end of play.
      */
@@ -127,42 +130,66 @@ public class Game
                 System.out.println("I don't know what you mean...");
                 break;
 
+            //Movement
             case HELP:
                 printHelp();
                 break;
 
             case GO:
-                goRoom(command);
+                if(talking)
+                {
+                    System.out.println("It's rude to leave mid conversation!");
+                } 
+                else 
+                {
+                    goRoom(command);
+                }
                 break;
                 
             case LOOK:
                 look();
                 break;
-
-            case EAT:
-                System.out.println("I do indeed like food, you eat a bowl of noodles");
-                break;
                 
             case BACK:
-                if(path.size() == 0)
+                if(talking)
                 {
-                    System.out.println("You cannot go back.");
-                } else 
-                {
-                    goRoom(path.get(path.size() -1));
-                    //teleport method does not print for the sake of other use cases
-                    System.out.println(currentRoom.getLongDescription());
+                    System.out.println("It's rude to leave mid conversation!");
                 } 
+                else 
+                {
+                    if(path.size() == 0)
+                    {
+                        System.out.println("You cannot go back.");
+                    } 
+                    else 
+                    {
+                        goRoom(path.get(path.size() -1));
+                        //teleport method does not print for the sake of other use cases
+                        System.out.println(currentRoom.getLongDescription());
+                    }
+                }
                 break;
                 
+            //Item related
             case INVENTORY:
+                p1.printInventory();
                 break;
             
             case EXAMINE:
                 examine(command);
                 break;
                 
+            //NPC related
+            case TALK:
+                talk(command);
+                break;
+                
             case PRESENT:
+                break;
+                
+            //Misc.
+            case EAT:
+                System.out.println("I do indeed like food, you eat a bowl of noodles");
                 break;
                 
             case QUIT:
@@ -254,6 +281,35 @@ public class Game
                     System.out.println(a.getName() + " has been added to your inventory");
                 }
             }
+        }
+    }
+    
+    
+    /** 
+     * Try to go in one direction. If there is an exit, enter the new
+     * room, otherwise print an error message.
+     */
+    private void talk(Command command) 
+    {
+        
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Go where?");
+            return;
+        }
+
+        String direction = command.getSecondWord();
+
+        // Try to leave current room.
+        Room nextRoom = currentRoom.getExit(direction);
+
+        if (nextRoom == null) {
+            System.out.println("There is no door!");
+        }
+        else {
+            path.add(currentRoom);
+            currentRoom = nextRoom;
+            System.out.println(currentRoom.getLongDescription());
         }
     }
     
