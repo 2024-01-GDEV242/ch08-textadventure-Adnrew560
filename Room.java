@@ -84,7 +84,7 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + ".\n" + getItemString();
+        return "You are " + description + ".\n" + getExitString() + "." + getItemString();
     }
 
     /**
@@ -109,7 +109,9 @@ public class Room
      */
     private String getItemString()
     {
-        String returnString = "There is ";
+        if(items.size() > 0)
+        {
+            String returnString = "\nThere is ";
         for(Item a : items) {
             char b = a.getLocationText(false).charAt(0); //the first letter of the item's name
             if(b == 'a' || b == 'e' || b == 'i'  || b == 'o'|| b == 'u') //choose a or an
@@ -121,6 +123,8 @@ public class Room
             }
         }
         return returnString.substring(0,returnString.length() - 2) + ".";
+        }
+        return "";
     }
 
     /**
