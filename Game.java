@@ -21,6 +21,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private ArrayList<Room> path; //the path the player took to get to the room
+    private Player p1; //the player
     public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
         
     /**
@@ -31,6 +32,7 @@ public class Game
         createRooms();
         parser = new Parser();
         path = new ArrayList<Room>();
+        p1 = new Player();
     }
     
     public static void main(String[] args)
@@ -153,6 +155,16 @@ public class Game
                 } 
                 break;
                 
+            case INVENTORY:
+                break;
+            
+            case EXAMINE:
+                examine(command);
+                break;
+                
+            case PRESENT:
+                break;
+                
             case QUIT:
                 wantToQuit = quit(command);
                 break;
@@ -200,6 +212,48 @@ public class Game
             path.add(currentRoom);
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+        }
+    }
+    
+    /** 
+     * Examine an item and print its description.
+     */
+    private void examine(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Examine which item?");
+            return;
+        }
+
+        String selection = command.getSecondWord();
+        //I will make both getItem / findItem methods work the same way later
+        Item a = currentRoom.getItem(selection);
+        
+        if (a == null) //The item is not in the room
+        {
+            int b = p1.findItem(selection);
+            if(b == -1) //The item is in another room, or does not exist
+            {
+                System.out.println("There is no " + selection + "!");
+            } 
+            else //The item is in the player's inventory
+            {
+                a = p1.readItem(b);
+                System.out.println(a.getDescription());
+            }
+        }
+        else //The item is in the room
+        {
+            System.out.println(a.getDescription());
+            if(a.checkPickup()) //Check if the item can be picked up
+            {
+                if(a.pickup()) //Pick up the item if it hasn't been already
+                {
+                    p1.addItem(a);
+                    System.out.println(a.getName() + " has been added to your inventory");
+                }
+            }
         }
     }
     

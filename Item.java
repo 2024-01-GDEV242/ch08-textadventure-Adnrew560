@@ -19,6 +19,8 @@ public class Item
     private Room location; //the room the item is in, null value means the player's inventory
     private String locationText; //where in the room the item is blank means the player's inventory
     private String description; //the item's description
+    private boolean pickup; //whether or not the item can be picked up
+    private boolean owned; //if the item is picked up or not
     
     /**
      * Constructor for objects of class Item
@@ -31,6 +33,8 @@ public class Item
         description = "";
         location = null;
         locationText = "";
+        pickup = false;
+        owned = false;
     }
     
     /**
@@ -47,6 +51,8 @@ public class Item
         description = d;
         location = null;
         locationText = "";
+        pickup = true;
+        owned = false;
     }
     
     /**
@@ -144,5 +150,26 @@ public class Item
     {
         location = r;
         locationText = str;
+    }
+    
+    /**
+     * @return   true if the item can be picked up by the player
+     */
+    public boolean checkPickup()
+    {
+        return pickup;
+    }
+    
+    /**
+     * @return   true if the item is not flagged as owned, and then flags it as owned 
+     */
+    public boolean pickup()
+    {
+        if(owned)
+        {
+            return false;
+        }
+        owned = true;
+        return true;
     }
 }

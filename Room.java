@@ -109,20 +109,22 @@ public class Room
      */
     private String getItemString()
     {
+        String returnString = "";
         if(items.size() > 0)
         {
-            String returnString = "\nThere is ";
-        for(Item a : items) {
-            char b = a.getLocationText(false).charAt(0); //the first letter of the item's name
-            if(b == 'a' || b == 'e' || b == 'i'  || b == 'o'|| b == 'u') //choose a or an
+            returnString = "\nThere is ";
+            for(Item a : items) 
             {
-                returnString += "an " + a.getLocationText(false) + ", ";
-            } else
-            {
-                returnString += "a " + a.getLocationText(false) + ", ";
+                char b = a.getLocationText(false).charAt(0); //the first letter of the item's name
+                if(b == 'a' || b == 'e' || b == 'i'  || b == 'o'|| b == 'u') //choose a or an
+                {
+                    returnString += "an " + a.getLocationText(false) + ", ";
+                } else
+                {
+                    returnString += "a " + a.getLocationText(false) + ", ";
+                }
             }
-        }
-        return returnString.substring(0,returnString.length() - 2) + ".";
+            return returnString.substring(0,returnString.length() - 2) + ".";
         }
         return "";
     }
@@ -136,6 +138,24 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Return the item that is examined if we search thir room for selection
+     * "selection". If there is no item of that name, return null.
+     * @param selection The selected item.
+     * @return The item selected.
+     */
+    public Item getItem(String selection) 
+    {
+        for(Item i : items)
+        {
+            if(i.getName().toLowerCase().equals(selection.toLowerCase()))
+            {
+                return i;
+            }
+        }
+        return null;
     }
     
     /**
