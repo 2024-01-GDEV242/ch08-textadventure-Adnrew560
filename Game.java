@@ -23,7 +23,6 @@ public class Game
     private ArrayList<Room> path; //the path the player took to get to the room
     private Player p1; //the player
     private boolean talking;
-    public static final int LINE_LENGTH = 50; //Will be implemented later, fixes text format
     private ArrayList<Option> choices = new ArrayList<Option>();
         
     /**
@@ -60,14 +59,14 @@ public class Game
         office = new Room("office","in the computing admin office");
         cafeteria = new Room("cafeteria","in the office cafeteria");
         home = new Room("home", "right outside your home");
-        garage = new Room("garage", "your garage");
-        kitchen = new Room("kitchen", "your kitchen");
-        bedroom = new Room("bedroom", "your bedroom");
-        park = new Room("park","the park near your house");
-        store = new Room("store", "the store on main stret");
-        beach = new Room("beach", "the beach");
-        tower = new Room("tower", "the tower towering over main street");
-        pool = new Room("pool", "welcome to the evil pool that has no exit, you are trapped here forever");
+        garage = new Room("garage", "in your garage");
+        kitchen = new Room("kitchen", "in your kitchen");
+        bedroom = new Room("bedroom", "in your bedroom");
+        park = new Room("park","at the park near your house");
+        store = new Room("store", "at the store on main stret");
+        beach = new Room("beach", "at the beach");
+        tower = new Room("tower", "at the tower towering over main street");
+        pool = new Room("pool", "at the evil pool that has no exit, you are trapped here forever");
         
         choices.add(new Option("colors","My favorite color is blue!"));
         choices.add(new Option("math","I like math, except statistics"));
@@ -115,17 +114,21 @@ public class Game
         store.addItem(new Item("Apples",12.0,"A bundle of apples, yummy.", store, "a bundle of apples in the fruit section", true));
         store.addItem(new Item("Bananas",5.0,"A buch of bananas, perfect for comedy.", store, "a bunch of bananas also in the fruit section", true));
         store.addItem(new Item("Tea",1.5,"A box of green tea.", store, "tea in the drinks section", true));
-        store.addItem(new Item("Cash Register",200,"The cash register where you check out items", store, "cash register on the right", false));
+        store.addItem(new Item("Cash",200,"The cash register where you check out items", store, "cash register on the right", false));
         ArrayList<Option> set2 = new ArrayList<Option>();
         set2.add(new Option("apples","the apples are 99 cents each"));
         set2.add(new Option("bananas","the bananas are 5 dollars a bunch"));
         set2.add(new Option("tea","the tea is 2 dollars for a box"));
-        set2.add(new Option("register","no you can't buy the cash register"));
+        set2.add(new Option("cash","no you can't buy the cash register"));
         store.setActiveNPC(new NPC("Attendant"));
         store.getActiveNPC().setOptions(set2);
         store.setExit("east", pub);
         store.setExit("north", pool);
         store.setExit("south", tower);
+        
+        tower.setExit("north", store);
+        
+        
         
 
         lab.setExit("north", outside);
@@ -134,7 +137,7 @@ public class Game
 
         office.setExit("west", lab);
         
-        cafeteria.setExit("east", cafeteria);
+        cafeteria.setExit("east", lab);
 
         currentRoom = outside;  // start game outside
     }
@@ -240,10 +243,10 @@ public class Game
             case TALK:
                 talk(command);
                 break;
-                
+            /*  Unused
             case PRESENT:
                 break;
-                
+              */  
             //Misc.
             case EAT:
                 System.out.println("I do indeed like food, you eat a bowl of noodles");

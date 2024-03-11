@@ -63,11 +63,21 @@ public class Room
         locationString = locationStr;
     }
     
+    /**
+     * Sets the active NPC of the room
+     * 
+     * @param   n The npc to set active in the room
+     */
     public void setActiveNPC(NPC n)
     {
         activeNPC = n;
     }
     
+    /**
+     * Adds an item to the room
+     * 
+     * @param   i the item to add to the room
+     */
     public void addItem(Item i)
     {
         items.add(i);
@@ -195,6 +205,9 @@ public class Room
         return locationString;
     }
     
+    /**
+     * @return the active NPC of the room
+     */
     public NPC getActiveNPC()
     {
         return activeNPC;

@@ -82,6 +82,9 @@ public class Player
         return -1;
     }
     
+    /**
+     * @return the weight of all items in the inventory
+     */
     public double getWeight()
     {
         double result = 0;
