@@ -32,6 +32,12 @@ public class Game
         parser = new Parser();
         path = new ArrayList<Room>();
     }
+    
+    public static void main(String[] args)
+    {
+        Game a = new Game();
+        a.play();
+    }
 
     /**
      * Create all the rooms and link their exits together.

@@ -8,8 +8,8 @@
  * This class handles items in the game, They are located in rooms, some are 
  * native to the player's inventory.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Andrew Steidle
+ * @version 2024.3.10
  */
 public class Item
 {
